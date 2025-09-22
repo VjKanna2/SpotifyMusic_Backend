@@ -90,7 +90,6 @@ def CallBack(request):
     print("403 Body:", userDataResponse.text)
 
     userData = userDataResponse.json()
-    print('JSON Res -', userData)
     
     getUserId, created = UserData.objects.update_or_create(
         userId = userData["id"],
