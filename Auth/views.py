@@ -84,10 +84,6 @@ def CallBack(request):
         "Authorization": f"Bearer {reponseTokens['access_token']}"
     }
     userDataResponse = requests.get(getUserData, headers=headers)
-    print('Res -', userDataResponse)
-    print("403 Status:", userDataResponse.status_code)
-    print("403 Headers:", userDataResponse.headers)
-    print("403 Body:", userDataResponse.text)
 
     userData = userDataResponse.json()
     
