@@ -69,7 +69,7 @@ def CallBack(request):
     code = request.GET.get("code")
 
     getTokens = "https://accounts.spotify.com/api/token"
-    response = requests.post(
+    tokenResponse = requests.post(
         getTokens,
         data={
             "grant_type": "authorization_code",
@@ -79,7 +79,11 @@ def CallBack(request):
             "client_secret": CLIENT_SECRET_ID,
         },
     )
-    reponseTokens = response.json()
+
+    if 'text/html' in tokenResponse.headers.get('Content-Type', ''):
+        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
+
+    reponseTokens = tokenResponse.json()
     
     getUserData = "https://api.spotify.com/v1/me"
     headers = {
@@ -105,9 +109,6 @@ def CallBack(request):
     access_token, refresh_token = generateToken(user)
     
     response = HttpResponseRedirect(CORS_1)
-    
-    if 'text/html' in response.headers.get('Content-Type', ''):
-        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
 
     response.set_cookie(
         ACCESS_TOKEN, access_token, 
