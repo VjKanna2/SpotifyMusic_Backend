@@ -133,18 +133,9 @@ def UserLogOut(request):
         "Status": "Logged Out Successfully",
         "Message": "Data Cleared"
     })
-    response.delete_cookie(
-        ACCESS_TOKEN,
-        httponly=True,
-        samesite="None",
-        secure=True
-    )
-    response.delete_cookie(
-        REFRESH_TOKEN,
-        httponly=True,
-        samesite="None",
-        secure=True
-    )
+    response.delete_cookie(ACCESS_TOKEN, path="/", samesite="None", secure=True)
+    response.delete_cookie(REFRESH_TOKEN, path="/", samesite="None", secure=True)
+
     return response
 
 
