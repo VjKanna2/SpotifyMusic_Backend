@@ -104,7 +104,7 @@ def CallBack(request):
     user = UserData.objects.get(userId = getUserId)
     access_token, refresh_token = generateToken(user)
     
-    response = HttpResponseRedirect(f"{CORS_1}/search")
+    response = HttpResponseRedirect(CORS_1)
     response.set_cookie(
         ACCESS_TOKEN, access_token, 
         httponly=True, 
@@ -133,8 +133,8 @@ def UserLogOut(request):
         "Status": "Logged Out Successfully",
         "Message": "Data Cleared"
     })
-    response.delete_cookie(ACCESS_TOKEN, path="/", samesite="None", secure=True)
-    response.delete_cookie(REFRESH_TOKEN, path="/", samesite="None", secure=True)
+    response.delete_cookie(ACCESS_TOKEN, path="/", samesite="None")
+    response.delete_cookie(REFRESH_TOKEN, path="/", samesite="None")
 
     return response
 
