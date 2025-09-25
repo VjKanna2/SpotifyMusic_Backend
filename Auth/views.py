@@ -123,6 +123,21 @@ def CallBack(request):
     return response
 
 
+@api_view(['POST'])
+@authUserFunc
+def UserLogOut(request):
+    user = request.userData['userId']
+    deleteUser = UserData.objects.get(userId = user)
+    deleteUser.delete()
+    response = JsonResponse({
+        "Status": "Logged Out Successfully",
+        "Message": "Data Cleared"
+    })
+    response.delete_cookie(ACCESS_TOKEN)
+    response.delete_cookie(REFRESH_TOKEN)
+    return response
+
+
 class PremiumPlaySetup(APIView):
     
     @authUserClass
