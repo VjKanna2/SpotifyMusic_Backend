@@ -15,6 +15,12 @@ CLIENT_ID = config("CLIENT_ID")
 CLIENT_SECRET_ID = config("CLIENT_SECRET_ID")
 REDIRECT_URI = config("REDIRECT_URI")
 
+FRONTEND_URL = config("FRONTEND_URL")
+BACKEND_URL = config("BACKEND_URL")
+
+CORS_1 = config("CORS_1")
+CORS_LOCAL = config("CORS_LOCAL")
+
 DB_NAME = config("DB_NAME")
 DB_USER = config("DB_USER") 
 DB_PASS = config("DB_PASS") 
@@ -24,11 +30,8 @@ DB_PORT = config("DB_PORT")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['webspotify-music.vercel.app']
-CORS_ALLOWED_ORIGINS = [
-    "https://webspotify-music.vercel.app",
-    "http://127.0.0.1:5173"
-]
+ALLOWED_HOSTS = [FRONTEND_URL, BACKEND_URL]
+CORS_ALLOWED_ORIGINS = [CORS_1, CORS_LOCAL]
 CORS_ALLOW_CREDENTIALS = True
 
 SECURE_SSL_REDIRECT = True
