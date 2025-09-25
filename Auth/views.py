@@ -105,6 +105,10 @@ def CallBack(request):
     access_token, refresh_token = generateToken(user)
     
     response = HttpResponseRedirect(CORS_1)
+    
+    if 'text/html' in response.headers.get('Content-Type', ''):
+        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
+
     response.set_cookie(
         ACCESS_TOKEN, access_token, 
         httponly=True, 
