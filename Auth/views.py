@@ -80,7 +80,7 @@ def CallBack(request):
         },
     )
 
-    if 'text/html' in tokenResponse.headers.get('Content-Type', ''):
+    if tokenResponse.status_code != 200:
         return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
 
     reponseTokens = tokenResponse.json()
