@@ -18,6 +18,8 @@ CLIENT_ID = settings.CLIENT_ID
 CLIENT_SECRET_ID = settings.CLIENT_SECRET_ID
 REDIRECT_URI = settings.REDIRECT_URI
 
+CORS_1 = settings.CORS_1
+
 SCOPES = "streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state"
 
 
@@ -102,7 +104,7 @@ def CallBack(request):
     user = UserData.objects.get(userId = getUserId)
     access_token, refresh_token = generateToken(user)
     
-    response = HttpResponseRedirect("http://127.0.0.1:5173/search")
+    response = HttpResponseRedirect(f"{CORS_1}/search")
     response.set_cookie(
         ACCESS_TOKEN, access_token, 
         httponly=True, 
