@@ -84,6 +84,8 @@ def CallBack(request):
         return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
 
     reponseTokens = tokenResponse.json()
+    if "error" in reponseTokens:
+        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
     
     getUserData = "https://api.spotify.com/v1/me"
     headers = {
