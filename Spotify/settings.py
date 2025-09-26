@@ -1,5 +1,5 @@
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,12 +13,10 @@ SECRET_KEY = config("SECRET_KEY")
 
 CLIENT_ID = config("CLIENT_ID")
 CLIENT_SECRET_ID = config("CLIENT_SECRET_ID")
-REDIRECT_URI = config("REDIRECT_URI")
 
-FRONTEND_URL = config("FRONTEND_URL")
-BACKEND_URL = config("BACKEND_URL")
-
-CORS_1 = config("CORS_1")
+ALLOWED = config("ALLOWED", cast=Csv())
+FE_BASE = config("FE_BASE")
+BE_BASE = config("BE_BASE")
 
 DB_NAME = config("DB_NAME")
 DB_USER = config("DB_USER") 
@@ -29,16 +27,17 @@ DB_PORT = config("DB_PORT")
 
 DEBUG = True
 
-ALLOWED_HOSTS = [FRONTEND_URL, BACKEND_URL]
-CORS_ALLOWED_ORIGINS = [CORS_1]
+ALLOWED_HOSTS = ALLOWED
+CORS_ALLOWED_ORIGINS = [FE_BASE]
 CORS_ALLOW_CREDENTIALS = True
 
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# DEV - False
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',

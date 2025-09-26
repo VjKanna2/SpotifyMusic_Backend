@@ -16,9 +16,8 @@ ACCESS_TOKEN = settings.ACCESS_TOKEN
 REFRESH_TOKEN = settings.REFRESH_TOKEN
 CLIENT_ID = settings.CLIENT_ID
 CLIENT_SECRET_ID = settings.CLIENT_SECRET_ID
-REDIRECT_URI = settings.REDIRECT_URI
-
-CORS_1 = settings.CORS_1
+FE_BASE = settings.FE_BASE
+BE_BASE = settings.BE_BASE
 
 SCOPES = "streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state"
 
@@ -74,24 +73,21 @@ def CallBack(request):
         data={
             "grant_type": "authorization_code",
             "code": code,
-            "redirect_uri": REDIRECT_URI,
+            "redirect_uri": f"{BE_BASE}/auth/callback",
             "client_id": CLIENT_ID,
             "client_secret": CLIENT_SECRET_ID,
         },
     )
-
-    if tokenResponse.status_code != 200:
-        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
-
     reponseTokens = tokenResponse.json()
-    if "error" in reponseTokens:
-        return HttpResponseRedirect("https://webspotify-music.vercel.app/404")
-    
+
     getUserData = "https://api.spotify.com/v1/me"
     headers = {
         "Authorization": f"Bearer {reponseTokens['access_token']}"
     }
     userDataResponse = requests.get(getUserData, headers=headers)
+
+    if userDataResponse.status_code != 200:
+        return HttpResponseRedirect(f"{FE_BASE}/404")
 
     userData = userDataResponse.json()
     
@@ -110,7 +106,7 @@ def CallBack(request):
     user = UserData.objects.get(userId = getUserId)
     access_token, refresh_token = generateToken(user)
     
-    response = HttpResponseRedirect(CORS_1)
+    response = HttpResponseRedirect(FE_BASE)
 
     response.set_cookie(
         ACCESS_TOKEN, access_token, 
