@@ -37,8 +37,15 @@ def SpotifyApi(user: UserData, endpoint, method="GET", params=None):
             response = requests.put(url, headers=headers, json=params)
         else:
             response = requests.post(url, headers=headers, json=params)
+    
+    if response.status_code == 204:
+        data = {"Status": "Success", "Message": "No Message"}
+    else:
+        try: 
+            data = response.json()
+        except ValueError:
+            data = {"Status": "Success", "Message": "Value Error"}
         
-    data = response.json()
     cache.set(cacheKey, data, timeout=60)
 
     return data

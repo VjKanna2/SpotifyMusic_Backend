@@ -92,5 +92,5 @@ class HandleSong(APIView):
         trackUrl = request.data.get("trackUrl")
         body = {"uris": [trackUrl]} if type == 'play' else None
         
-        response = SpotifyApi(user, url, "POST" if type == 'play' or type == 'pause' else 'PUT', body)
-        return response
+        response = SpotifyApi(user, url, "PUT" if type in ['play', 'pause'] else 'POST', body)
+        return JsonResponse(response)
