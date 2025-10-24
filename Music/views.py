@@ -87,10 +87,18 @@ class HandleSong(APIView):
         
         type = request.data.get("type")
         deviceId = user.device_id or request.data.get("deviceId")
-        url = f"me/player/{type}?device_id={deviceId}"
+        url = f"me/player/{type if type != 'resume' else 'play'}?device_id={deviceId}"
         
         trackUrl = request.data.get("trackUrl")
         body = {"uris": [trackUrl]} if type == 'play' else None
         
-        response = SpotifyApi(user, url, "PUT" if type in ['play', 'pause'] else 'POST', body)
+        transfer_body = {
+            "device_ids": [deviceId],
+            "play": False
+        }
+        res2 = SpotifyApi(user, "me/player", "PUT", transfer_body)
+        
+        print('RES 2: ', res2)
+        
+        response = SpotifyApi(user, url, "PUT" if type in ['play', 'pause', 'resume'] else 'POST', body)
         return JsonResponse(response)
