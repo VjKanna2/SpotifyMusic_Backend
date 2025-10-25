@@ -6,10 +6,11 @@ from .handleToken import refreshToken
 
 def SpotifyApi(user: UserData, endpoint, method="GET", params=None):
     
-    cacheKey = f"spotify-user-{user.userId}-{endpoint}-{params}"
-    cacheResponse = cache.get(cacheKey)
-    if cacheResponse:
-        return cacheResponse
+    if method == 'GET':
+        cacheKey = f"spotify-user-{user.userId}-{endpoint}-{params}"
+        cacheResponse = cache.get(cacheKey)
+        if cacheResponse:
+            return cacheResponse
     
     url = f"https://api.spotify.com/v1/{endpoint}"
     headers = {"Authorization": f"Bearer {user.token}"}
@@ -45,8 +46,9 @@ def SpotifyApi(user: UserData, endpoint, method="GET", params=None):
             data = response.json()
         except ValueError:
             data = {"Status": "Success", "Message": "Value Error"}
-        
-    cache.set(cacheKey, data, timeout=60)
+    
+    if method == 'GET':
+        cache.set(cacheKey, data, timeout=60)
 
     return data
 
