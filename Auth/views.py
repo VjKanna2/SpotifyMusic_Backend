@@ -43,6 +43,9 @@ class Authentication(APIView):
             userIdFromToken = refresh_data["userId"]
             user = UserData.objects.get(userId = userIdFromToken)
             new_access_token, new_refresh_token = generateToken(user)
+            user.token = new_access_token
+            user.refresh = new_refresh_token
+            user.save()
 
             response = JsonResponse({"Status": "Token Refreshed"})
             response.set_cookie(
